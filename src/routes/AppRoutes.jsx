@@ -5,12 +5,12 @@ const HomePage = React.lazy( () => import("../pages/HomePage") )
 const PatientsPage = React.lazy( () => import("../pages/PatientsPage"))
 
 
-const AppRoutes = () => {
+const AppRoutes = ({dataList}) => {
   return ( 
     <Suspense fallback={"Cargando"}>
       <Routes>
         <Route path="/" element={<HomePage/>} />
-        <Route path="/patients" element={<PatientsPage/>} />
+        <Route path="/patients" element={<PatientsPage dataList={dataList}/>} />
       </Routes>
     </Suspense>
   );
