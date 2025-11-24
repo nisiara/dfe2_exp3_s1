@@ -1,7 +1,16 @@
 # Desarrollo Frontend II - Experiencia 2 Semana 5
-## 🎟️ Sistema de Exploración de Eventos
+![React](https://img.shields.io/badge/React-19.2.0-61DAFB?logo=react)
+![Vite](https://img.shields.io/badge/Vite-7.2.4-646CFF?logo=vite&logoColor=white)
+![Tailwind](https://img.shields.io/badge/Tailwind-3.4-06B6D4?logo=tailwindcss)
+![GraphQL](https://img.shields.io/badge/GraphQL-3.4-E10098?logo=graphql)
+![Apollo Client](https://img.shields.io/badge/Apollo-3.4-311C87?logo=apollographql)
+![MSW](https://img.shields.io/badge/MSW-2.0.0-FF6A33?logo=mockserviceworker&logoColor=white)
 
-Aplicación web en React para listar y consultar el detalle de eventos usando GraphQL (simulado con MSW) y estilos con Tailwind. Sustituye el contexto anterior de pacientes por un catálogo de eventos culturales, deportivos y musicales.
+
+
+## 🎟️ Sistema de Eventos
+
+Aplicación web en React para listar y consultar el detalle de un catálogo de eventos culturales, deportivos y musicales usando GraphQL y Apollo Client, simulado con Mock Service Work
 
 ## 🚀 Características Principales
 
@@ -15,7 +24,7 @@ Aplicación web en React para listar y consultar el detalle de eventos usando Gr
 
 ## 🛠️ Tecnologías Utilizadas
 
-- **React** 19.2.0 (hooks modernos).
+- **React** 19.2.0.
 - **React Router** 7.9.5 para navegación de rutas dinámicas.
 - **Apollo Client** para consumo de consultas GraphQL (mock backend).
 - **MSW (Mock Service Worker)** 2.12.1 para interceptar y responder consultas GraphQL.
@@ -23,7 +32,7 @@ Aplicación web en React para listar y consultar el detalle de eventos usando Gr
 - **Vite** 7.2.2 como dev server y bundler rápido.
 - **ESLint / PostCSS** para calidad y procesado CSS.
 
-## 📁 Estructura del Proyecto (relevante)
+## 📁 Estructura del Proyecto
 
 ```
 src/
@@ -100,26 +109,7 @@ npm run dev
 
 Abrir: `http://localhost:5173`
 
-## 🔍 Comprobación Rápida
-
-1. Ir a `/events` y esperar carga (mensaje de loading inicial).
-2. Abrir un evento válido (ej. `EVE-001A`).
-3. Probar un ID inexistente (`/events/EVE-001AERE`) para ver feedback de error.
-
-## 📦 Extensiones Potenciales
-
-- Incluir más campos en el detalle (fecha, auspiciadores, precios).
-- Integrar filtrado por tipo de evento.
-- Agregar paginación o scroll infinito.
-- Implementar `errorPolicy: 'all'` para distinguir "not found" sin bloquear el render.
-
-## 🏗️ Arquitectura Breve
-
-- **SPA** con React Router.
-- **Apollo Client** para queries y caché (fetchPolicy ajustable a `network-only`).
-- **MSW** intercepta `fetch` y responde GraphQL localmente.
-- **Tailwind** reduce CSS personalizado y acelera prototipado.
 
 ---
 
-*Desarrollado con* ❤️ usando React, Apollo y MSW.
+*Desarrollado con* ❤️ usando React, Apollo MSW y un montón de cosas.
