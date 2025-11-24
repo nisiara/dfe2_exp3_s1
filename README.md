@@ -1,134 +1,125 @@
-# Desarrollo Frontend II - Experiencia 2 Semana 1
-## 🏥 Clínica VitaSalud - Sistema de Gestión de Pacientes
+# Desarrollo Frontend II - Experiencia 2 Semana 5
+## 🎟️ Sistema de Exploración de Eventos
 
-Una aplicación web desarrollada con React, pensada para trabajar con Mock Service Worker y consumir con datos 'dummy'.
+Aplicación web en React para listar y consultar el detalle de eventos usando GraphQL (simulado con MSW) y estilos con Tailwind. Sustituye el contexto anterior de pacientes por un catálogo de eventos culturales, deportivos y musicales.
 
-## 🚀 Características
+## 🚀 Características Principales
 
-- **Lista de Pacientes**: Visualización completa de todos los pacientes registrados
-- **Detalle de Paciente**: Información detallada individual de cada paciente
-- **Menú de Navegación**: Interfaz de usuario responsive.
-- **Carga Asíncrona**: Estados de carga y manejo de datos dinámicos
-- **Diseño Responsivo**: Optimizado para dispositivos móviles y desktop
+- **Lista de Eventos**: Renderiza catálogo con nombre, tipo, locación y acceso al detalle.
+- **Detalle de Evento**: Vista individual con nombre y tipo (extensible a más datos del mock).
+- **GraphQL Mock**: Consultas `ObtenerEventos` y `ObtenerEventoPorID` servidas por MSW.
+- **Estados de Carga**: Mensajes diferenciados (lista vs detalle) con delays simulados (`delay` de MSW).
+- **Manejo de Errores**: Respuestas GraphQL con estructura `errors` para IDs inexistentes.
+- **Routing SPA**: Navegación con React Router (`/events` y `/events/:id`).
+- **Estilos**: Tailwind para layout responsivo y tipografía limpia.
 
 ## 🛠️ Tecnologías Utilizadas
 
-- **Frontend**: React 19.2.0 con hooks modernos
-- **Routing**: React Router 7.9.5 para navegación SPA
-- **Estilos**: Tailwind CSS 3.4.18 para diseño responsivo
-- **Build Tool**: Vite 7.2.2 para desarrollo rápido
-- **Mocking**: MSW (Mock Service Worker) 2.12.1 para simulación de API
+- **React** 19.2.0 (hooks modernos).
+- **React Router** 7.9.5 para navegación de rutas dinámicas.
+- **Apollo Client** para consumo de consultas GraphQL (mock backend).
+- **MSW (Mock Service Worker)** 2.12.1 para interceptar y responder consultas GraphQL.
+- **Tailwind CSS** 3.4.18 para estilos utilitarios.
+- **Vite** 7.2.2 como dev server y bundler rápido.
+- **ESLint / PostCSS** para calidad y procesado CSS.
 
-## 📁 Estructura del Proyecto
+## 📁 Estructura del Proyecto (relevante)
 
 ```
 src/
-├── components/
-│   ├── common/          # Componentes reutilizables
-│   └── loading/         # Componente de carga
-├── layout/
-│   ├── Header.jsx       # Cabecera con navegación
-│   └── Footer.jsx       # Pie de página
 ├── pages/
-│   ├── HomePage.jsx     # Página de inicio
-│   ├── PatientsPage.jsx # Lista de pacientes
-│   ├── PatientDetailPage.jsx # Detalle de paciente
-│   └── AboutUsPage.jsx  # Página acerca de
-├── routes/
-│   └── AppRoutes.jsx    # Configuración de rutas
-└── mocks/
-    ├── handlers.js      # Manejadores de API mock
-    └── browser.js       # Configuración MSW
+│   ├── EventsPage.jsx         # Lista de eventos
+│   ├── EventDetailPage.jsx    # Detalle de un evento
+│   ├── HomePage.jsx           # Portada
+│   ├── AboutUsPage.jsx        # Información institucional
+├── components/
+│   └── common/Common.jsx      # `PageTitle` y otros reutilizables
+├── mocks/
+│   ├── handlers.js            # Definición de resolvers GraphQL mock
+│   └── browser.js             # Registro del service worker MSW
+├── routes/AppRoutes.jsx       # Definición de rutas SPA
 ```
 
-## 📊 Funcionalidades por Página
+## 🔐 Consultas GraphQL (Mock)
 
-### 🏠 Página de Inicio
-- Imagen de portada de la clínica
-- Presentación visual de la institución
+```graphql
+query ObtenerEventos {
+  eventos {
+    id
+    nombre_evento
+    tipo_evento
+    locacion
+    ciudad
+  }
+}
 
-### 👥 Lista de Pacientes (`/patients`)
-- Tabla con información de pacientes:
-  - Número de paciente
-  - Nombre completo
-  - Edad
-  - Fecha de consulta
-  - Médico asignado
-  - Enlace para ver detalles
-- Estado de carga con indicador visual
-- Navegación directa a detalles individuales
-
-### 👤 Detalle de Paciente (`/patients/:id`)
-- Información completa del paciente seleccionado
-- Historial de atenciones médicas
-- Datos de especialidades y médicos
-
-### ℹ️ Acerca de Nosotros (`/about-us`)
-- Información institucional de la clínica
-
-## 🚀 Instalación y Uso
-
-### Prerrequisitos
-- Node.js (versión 16 o superior)
-- npm, yarn o bun
-
-### Instalación
-
-1. **Clonar el repositorio**
-```bash
-git clone https://github.com/nisiara/dfe2_exp2_s1.git
-cd dfe2_exp2_s1
+query ObtenerEventoPorID($id: String!) {
+  evento(id: $id) {
+    nombre_evento
+    tipo_evento
+  }
+}
 ```
 
-2. **Instalar dependencias**
-```bash
-npm install
-```
+El handler para detalle devuelve `errors` si el ID no existe (código `EVENTO NO ENCONTRADO`). Esto permite manejar “no encontrado” en la UI distinguiéndolo de errores de red.
 
-3. **Iniciar el servidor de desarrollo**
-```bash
-npm run dev
-```
+## 🗃️ Datos Mock
 
-4. **Abrir en el navegador**
-```
-http://localhost:5173
-```
-
-
-## 🗃️ Datos de Prueba
-
-La aplicación incluye un conjunto de datos mock con 16 pacientes de prueba, cada uno con:
-- Información personal (nombre, edad, número de paciente)
-- Historial de atenciones médicas
-- Especialidades médicas variadas
-- Costos de atención
-- Fechas de consulta
-
+Cada evento incluye (parcialmente mostrado en la UI):
+- `id`, `nombre_evento`, `tipo_evento`, `fecha`, `locacion`, `ciudad`, `hora`.
+- `descripcion`, `auspiciadores`, `precios` (estructura variable). 
+- `detalles_artista` con campos dependientes del tipo (música, teatro, deporte, etc.).
 
 ## 🎨 Diseño y UX
 
-- **Colores**: Paleta basada en grises slate para aspecto médico profesional
-- **Tipografía**: Fuentes sistema optimizadas para legibilidad
-- **Responsive**: Diseño que se adapta desde móviles hasta desktop
-- **Accesibilidad**: Enlaces y navegación semánticamente correctos
-- **Estados de Carga**: Feedback visual durante operaciones asíncronas
+- **Feedback de Carga**: Mensajes centrados y neutrales con paleta slate.
+- **Semántica**: Secciones y encabezados claros (`PageTitle`).
+- **Responsive**: Grid y utilidades Tailwind para distintos breakpoints.
+- **Accesibilidad Básica**: Uso de `alt` en imágenes y enlaces descriptivos.
 
-## 🔧 Configuración Técnica
+## 🧪 Manejo de Errores en la UI
 
-### Herramientas de Desarrollo
-- **Vite**: Build tool y servidor de desarrollo
-- **ESLint**: Análisis estático de código
-- **PostCSS + Autoprefixer**: Procesamiento de CSS
-- **MSW**: Mock de APIs para desarrollo
+Actualmente, al consultar un ID inexistente, Apollo entra al branch `error` debido a la presencia de `errors` en la respuesta. Para mostrar un mensaje “no encontrado” alternativo se puede:
+1. Inspeccionar `error.graphQLErrors[0].extensions.code`.
+2. O ajustar el handler para devolver `{ data: { evento: null } }` en vez de `errors`.
 
-### Arquitectura
-- **SPA (Single Page Application)**: Navegación del lado del cliente
-- **Component-Based**: Arquitectura basada en componentes reutilizables  
-- **Hooks Pattern**: Uso de React hooks para gestión de estado
-- **Lazy Loading**: Carga diferida de componentes de página
+## 🚀 Instalación y Ejecución
 
+### Prerrequisitos
+- Node.js 16+
+- npm / yarn / pnpm
+
+### Pasos
+
+```bash
+git clone https://github.com/nisiara/dfe2_exp2_s2.git
+cd dfe2_exp2_s2
+npm install
+npm run dev
+```
+
+Abrir: `http://localhost:5173`
+
+## 🔍 Comprobación Rápida
+
+1. Ir a `/events` y esperar carga (mensaje de loading inicial).
+2. Abrir un evento válido (ej. `EVE-001A`).
+3. Probar un ID inexistente (`/events/EVE-001AERE`) para ver feedback de error.
+
+## 📦 Extensiones Potenciales
+
+- Incluir más campos en el detalle (fecha, auspiciadores, precios).
+- Integrar filtrado por tipo de evento.
+- Agregar paginación o scroll infinito.
+- Implementar `errorPolicy: 'all'` para distinguir "not found" sin bloquear el render.
+
+## 🏗️ Arquitectura Breve
+
+- **SPA** con React Router.
+- **Apollo Client** para queries y caché (fetchPolicy ajustable a `network-only`).
+- **MSW** intercepta `fetch` y responde GraphQL localmente.
+- **Tailwind** reduce CSS personalizado y acelera prototipado.
 
 ---
 
-*Desarrollado con* ❤️ 🤪 🫠 🤯 😎 *usando React y tecnologías modernas*
+*Desarrollado con* ❤️ usando React, Apollo y MSW.
