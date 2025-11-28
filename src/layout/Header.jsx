@@ -9,7 +9,6 @@ const Header = () => {
   return ( 
     <header className="header mb-2 md:mb-10 md:flex align-middle py-6">
       <img src="/images/logo.svg" alt="Logo Punto Ticket" />
-      {/* <h1 className="mb-3 md:mb-0 text-center text-slate-500 md:text-left text-3xl font-bold">Ticket Master</h1> */}
       
       <nav className="md:ml-auto"> 
         <ul className="flex flex-col md:flex-row md:justify-normal align-middle gap-3">
